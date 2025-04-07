@@ -3966,6 +3966,50 @@
         654,
         -17
       ]
+    },
+    {
+      "id": "9KSzMHU4DYZN8y-LA2E5e",
+      "type": "freedraw",
+      "x": 319,
+      "y": -2083,
+      "width": 0.0001,
+      "height": 0.0001,
+      "angle": 0,
+      "strokeColor": "#1971c2",
+      "backgroundColor": "#a5d8ff",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "av",
+      "roundness": null,
+      "seed": 366431379,
+      "version": 3,
+      "versionNonce": 924610173,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1744055921927,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0.0001,
+          0.0001
+        ]
+      ],
+      "pressures": [],
+      "simulatePressure": true,
+      "lastCommittedPoint": [
+        0.0001,
+        0.0001
+      ]
     }
   ],
   "appState": {
