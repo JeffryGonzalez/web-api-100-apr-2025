@@ -1,0 +1,7 @@
+@SoftwareCenter.Api_HostAddress = http://localhost:1337
+
+
+# Add A Vendor to the API
+
+POST {{SoftwareCenter.Api_HostAddress}}/vendors 
+

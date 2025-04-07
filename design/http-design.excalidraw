@@ -1,0 +1,51 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "https://marketplace.visualstudio.com/items?itemName=pomdtr.excalidraw-editor",
+  "elements": [
+    {
+      "id": "jNthQI2mY5jVN-fLb6HxZ",
+      "type": "text",
+      "x": 446,
+      "y": 217,
+      "width": 1164.379150390625,
+      "height": 1400,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0",
+      "roundness": null,
+      "seed": 1120571994,
+      "version": 1785,
+      "versionNonce": 841437018,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1744052451431,
+      "link": null,
+      "locked": false,
+      "text": "Resources:\n    - An important thingy to the consumers of our API.\n\n- A thing that has a name (URI) /vendors\n\n- Resources come in different \"types\" (archetypes)\n\n- Collection - box of related documents.\n    - usually a plural name (employees, policies, dog-grooming-appointments, etc.)\n- Document\n    - individual instances of the things in a collection\n        - like a specific employee, policy, appointment, etc.)\n        - they have a name too, which is a subordinate of the collection name\n\n    - /vendors/microsoft is an example.\n    \n- This is sort of fractal, documents can have other baby documents, or other collections.\n\n- /vendors/microsoft/catalog-items\n\n\n- Fixed set of \"methods\" that an HTTP resource can support.\n    - there are more than this, but these are the ones you should lean on for EVERYTHING*\n\n- GET - select\n- POST - insert\n- PUT - update (except it's not)\n- DELETE - delete\n\n\nOn a collection:\n\nGET means \"get me the representation of this collection you think would help me\"\nPOST  means \"consider making this representation I am sending you a subordinate member of your collection, please\"\nPUT - (rare) - REPLACE THIS COLLECTION WITH THIS NEW COLLECTION.\nDELETE - remove this collection. Slightly less rare than a PUT - \"delete my shopping cart\", but still rare.\n\nOn a document:\n\nGET means about the same - get me a representation of this document\n    \n-- GET /employees/398398938 \n\nPOST on a document is rare, but can be useful. Example later. Means something like \"submit this entity for processing\".\n\nPUT - replace the entity at this URL with a new thing.\nDELETE - remove this entity from this collection.\n\n\n\n\n\n\n\n\n",
+      "fontSize": 20,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "Resources:\n    - An important thingy to the consumers of our API.\n\n- A thing that has a name (URI) /vendors\n\n- Resources come in different \"types\" (archetypes)\n\n- Collection - box of related documents.\n    - usually a plural name (employees, policies, dog-grooming-appointments, etc.)\n- Document\n    - individual instances of the things in a collection\n        - like a specific employee, policy, appointment, etc.)\n        - they have a name too, which is a subordinate of the collection name\n\n    - /vendors/microsoft is an example.\n    \n- This is sort of fractal, documents can have other baby documents, or other collections.\n\n- /vendors/microsoft/catalog-items\n\n\n- Fixed set of \"methods\" that an HTTP resource can support.\n    - there are more than this, but these are the ones you should lean on for EVERYTHING*\n\n- GET - select\n- POST - insert\n- PUT - update (except it's not)\n- DELETE - delete\n\n\nOn a collection:\n\nGET means \"get me the representation of this collection you think would help me\"\nPOST  means \"consider making this representation I am sending you a subordinate member of your collection, please\"\nPUT - (rare) - REPLACE THIS COLLECTION WITH THIS NEW COLLECTION.\nDELETE - remove this collection. Slightly less rare than a PUT - \"delete my shopping cart\", but still rare.\n\nOn a document:\n\nGET means about the same - get me a representation of this document\n    \n-- GET /employees/398398938 \n\nPOST on a document is rare, but can be useful. Example later. Means something like \"submit this entity for processing\".\n\nPUT - replace the entity at this URL with a new thing.\nDELETE - remove this entity from this collection.\n\n\n\n\n\n\n\n\n",
+      "autoResize": true,
+      "lineHeight": 1.25
+    }
+  ],
+  "appState": {
+    "gridSize": 20,
+    "gridStep": 5,
+    "gridModeEnabled": false,
+    "viewBackgroundColor": "#ffffff"
+  },
+  "files": {}
+}
