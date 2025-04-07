@@ -14,7 +14,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.MapGet("/tacos", () => "Lunch Time!");
+app.MapGet("/tacos", () => "Lunch Time is over - back to work dogs!");
 
 app.Run();
 
