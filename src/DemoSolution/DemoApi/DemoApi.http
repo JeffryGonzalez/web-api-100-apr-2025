@@ -1,6 +1,8 @@
-@DemoApi_HostAddress = http://localhost:5225
+@DemoApi_HostAddress = http://localhost:8080
 
 GET {{DemoApi_HostAddress}}/tacos/
 Accept: application/json
 
 ###
+
+GET {{DemoApi_HostAddress}}/who-is-on-call
