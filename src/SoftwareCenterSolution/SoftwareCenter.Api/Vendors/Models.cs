@@ -5,20 +5,34 @@ namespace SoftwareCenter.Api.Vendors;
 
 
 
-public enum ContactMechanisms {
+public class CommercialVendorCreateModel
+{
+    public string Name { get; set; } = string.Empty;
+    public string Site { get; set; } = string.Empty;
+    public string ContactFirstName { get; set; } = string.Empty;
+    public string ContactLastName { get; set; } = string.Empty;
+    public string ContactEmail { get; set; } = string.Empty;
+    public string ContactPhone { get; set; } = string.Empty;
+}
+
+
+
+public enum ContactMechanisms
+{
     // primary_phone
     [JsonStringEnumMemberName("primary_phone")]
     primaryPhone,
     // primary_email
     [JsonStringEnumMemberName("primary_email")]
-    PrimaryEmail }
+    PrimaryEmail
+}
 
 
 public record CommercialVendorCreate(
     string Name,
     string Site,
     PointOfContact Poc
-    
+
     );
 
 public class CommercialVendorCreateValidator : AbstractValidator<CommercialVendorCreate>
@@ -66,6 +80,6 @@ public class NameContactValidator : AbstractValidator<NameContact>
     public NameContactValidator()
     {
         RuleFor(n => n.First).NotEmpty().MaximumLength(20);
-        RuleFor(n=> n.Last).MaximumLength(20);
+        RuleFor(n => n.Last).MaximumLength(20);
     }
 }

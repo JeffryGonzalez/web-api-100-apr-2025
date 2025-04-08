@@ -63,6 +63,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+// if someone does a GET  and the ID is a guid, then create that thing and call, otherwise don't
+
 app.Run();
 
 public partial class Program { }

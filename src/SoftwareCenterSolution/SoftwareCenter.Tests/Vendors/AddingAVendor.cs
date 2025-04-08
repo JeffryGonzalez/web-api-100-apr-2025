@@ -2,6 +2,9 @@
 
 using System.Net.Http.Json;
 using Alba;
+using Microsoft.Extensions.DependencyInjection;
+using NSubstitute;
+using SoftwareCenter.Api.Vendors;
 
 namespace SoftwareCenter.Tests.Vendors;
 
@@ -12,25 +15,64 @@ public class AddingAVendor
     public async Task CanAddVendorAsync()
     {
 
-        var host = await  AlbaHost.For<Program>();
+        var host = await  AlbaHost.For<Program>(config =>
+        {
+            var fakeIdentity = Substitute.For<IProvideIdentity>();
+            fakeIdentity.GetNameOfCallerAsync().Returns("darth-vader");
+            config.ConfigureServices(services =>
+            {
+               services.AddScoped<IProvideIdentity>(_ => fakeIdentity);
+            });
+        });
         // about 15 lines from that documentation, start up the api with our Program.cs configuration.
 
+        var vendorToAdd = new CommercialVendorCreateModel
+        {
+            Name = "Oracle",
+            Site = "https://oracle.com",
+            ContactEmail = "larry@oracle.com",
+            ContactFirstName = "Larry",
+            ContactLastName = "Ellison",
+            ContactPhone = "800 999-9999"
+        };
 
         // System Tests are "scenarios".  
-        await host.Scenario(api =>
+       var response =  await host.Scenario(api =>
         {
-            api.Post.Json(new { }).ToUrl("/commercial-vendors");
+            api.Post.Json(vendorToAdd).ToUrl("/commercial-vendors");
+            api.StatusCodeShouldBe(201);
+        });
+
+        var responseBody = response.ReadAsJson<VendorEntity>();
+
+        Assert.NotNull(responseBody);
+
+        Assert.Equal(vendorToAdd.Name, responseBody.Name);
+        // etc. etc. BORING..
+
+        var location = response.Context.Response.Headers.Location.Single();
+
+        Assert.NotNull(location);
+
+        var getResponse = await host.Scenario(api =>
+        {
+            api.Get.Url(location);
             api.StatusCodeShouldBeOk();
         });
 
-      //  // a "black box" test and can be SUPER flaky in your pipelines.
+        var getResponseBody = getResponse.ReadAsJson<VendorEntity>();
+        Assert.NotNull(getResponseBody);
 
-      //// bad. don't do this. don't even try to make this code better.
-      //  var client = new HttpClient();
-      //  client.BaseAddress = new Uri("http://localhost:1337");
-
-      //  var response = await client.PostAsJsonAsync("vendors", new { });
-
-      //  Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
+        //Assert.Equal(responseBody, getResponseBody);
+        Assert.Equivalent(responseBody, getResponseBody);
     }
 }
+
+
+//public class FakeIdentityThing : IProvideIdentity
+//{
+//    public Task<string> GetNameOfCallerAsync()
+//    {
+//        return Task.FromResult("boba-fett");
+//    }
+//}

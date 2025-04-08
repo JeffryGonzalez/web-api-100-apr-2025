@@ -5,24 +5,24 @@ using Microsoft.AspNetCore.Mvc;
 namespace SoftwareCenter.Api.Vendors;
 
 [ApiController]
-public class VendorsController(IDocumentSession documentSession) : ControllerBase
+public class VendorsController(IDocumentSession documentSession, IProvideIdentity _identityLookup) : ControllerBase
 {
 
-    private IDocumentSession _documentSession = documentSession;
+   
 
     [HttpPost("/commercial-vendors")]
     public async Task<ActionResult> AddAVendorAsync(
-        [FromBody] CommercialVendorCreate request,
-        [FromServices] IValidator<CommercialVendorCreate> validator
+        [FromBody] CommercialVendorCreateModel request
+      // todo: needs a validator.
         )
     {
         // is it a valid request? All the required stuff there? right format, etc.
-        var validationResults = validator.Validate( request );
-        if (!validationResults.IsValid)
-        {
+        //var validationResults = validator.Validate( request );
+        //if (!validationResults.IsValid)
+        //{
 
-            return BadRequest(validationResults.ToDictionary()); // I'll talk about htis in a second
-        }
+        //    return BadRequest(validationResults.ToDictionary()); // I'll talk about htis in a second
+        //}
 
         // create the thing we are going to save in the database (mapping)
         var entityToSave = new VendorEntity
@@ -30,15 +30,44 @@ public class VendorsController(IDocumentSession documentSession) : ControllerBas
             Id = Guid.NewGuid(),
             Name = request.Name,
             Site = request.Site,
-            VendorType = VendorTypes.Commercial
+            AddedOn = DateTimeOffset.Now, 
+            AddedBy = await _identityLookup.GetNameOfCallerAsync(),
+            VendorType = VendorTypes.Commercial,
+            Poc = new PointOfContact(
+            new NameContact(request.ContactFirstName, request.ContactLastName)  
+            , new Dictionary<ContactMechanisms, string>
+            {
+                { ContactMechanisms.primaryPhone, request.ContactPhone},
+                { ContactMechanisms.PrimaryEmail, request.ContactEmail }
+            })
         };
-        _documentSession.Store( entityToSave );
-        await _documentSession.SaveChangesAsync();
-       // save it
-       // map it to the thing we are going to return.
+        documentSession.Store( entityToSave );
+       await documentSession.SaveChangesAsync();
+        // save it
+        // map it to the thing we are going to return.
 
-        return Ok(entityToSave);
+        return Created($"/commercial-vendors/{entityToSave.Id}", entityToSave);
+    }
+
+    [HttpGet("/commercial-vendors/{id:guid}")]
+    public async Task<ActionResult> GetVendorById(Guid id)
+    {
+        var response = await documentSession.Query<VendorEntity>()
+            .SingleOrDefaultAsync(v => v.Id == id);
+        if(response is null)
+        {
+            return NotFound();
+        } else
+        {
+            return Ok(response);
+        }
     }
 
     
+}
+
+
+public interface IProvideIdentity
+{
+    Task<string> GetNameOfCallerAsync();
 }
