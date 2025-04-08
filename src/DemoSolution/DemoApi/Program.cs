@@ -1,9 +1,17 @@
+using System.Text.Json;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-builder.Services.AddControllers(); // this adds some services associated with activating controllers for requests.
+builder.Services.AddControllers().
+    AddJsonOptions(opts =>
+    {
+        opts.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
+    });
+    
+    // this adds some services associated with activating controllers for requests.
 
 // Up until this line (everything before this) is configuring the backend stuff in our API.
 var app = builder.Build();
