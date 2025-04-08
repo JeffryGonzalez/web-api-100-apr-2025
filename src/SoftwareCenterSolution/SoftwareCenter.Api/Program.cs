@@ -3,10 +3,27 @@
 
 
 using FluentValidation;
+using JasperFx.CodeGeneration.Frames;
+using Marten;
 using Microsoft.AspNetCore.Http.Json;
 using SoftwareCenter.Api.Vendors;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// built-in (which means you can change this) hierarchial configuration.
+// app.settings.json
+// look at ASPNETCORE_ENVIRONMENT variable, and then for an appsettings.DEVELOPMENT.json 
+// Your "secrets" in Visual Studio
+// In an environment variable for that particular value (ConnectionStrings__software)
+// in the command line arguments when you run the API
+
+var connectionString = builder.Configuration.GetConnectionString("software") ?? throw new Exception("No connection string! Don't start me");
+Console.WriteLine("Using this connection string: " + connectionString);
+builder.Services.AddMarten(options =>
+{
+    options.Connection(connectionString);
+}).UseLightweightSessions(); // not worth explaining, Marten specific, unless you are interested ask me later.
+
 
 // Add services to the container.
 

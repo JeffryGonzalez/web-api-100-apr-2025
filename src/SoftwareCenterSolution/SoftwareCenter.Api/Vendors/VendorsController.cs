@@ -1,11 +1,15 @@
 ﻿using FluentValidation;
+using Marten;
 using Microsoft.AspNetCore.Mvc;
 
 namespace SoftwareCenter.Api.Vendors;
 
 [ApiController]
-public class VendorsController : ControllerBase
+public class VendorsController(IDocumentSession documentSession) : ControllerBase
 {
+
+    private IDocumentSession _documentSession = documentSession;
+
     [HttpPost("/commercial-vendors")]
     public async Task<ActionResult> AddAVendorAsync(
         [FromBody] CommercialVendorCreate request,
@@ -19,12 +23,21 @@ public class VendorsController : ControllerBase
 
             return BadRequest(validationResults.ToDictionary()); // I'll talk about htis in a second
         }
-     
-        // if it is valid:
-            // save it somewhere?
-            // send them a response saying everything is cool, or what we did.
 
-        return Ok(request);
+        // create the thing we are going to save in the database (mapping)
+        var entityToSave = new VendorEntity
+        {
+            Id = Guid.NewGuid(),
+            Name = request.Name,
+            Site = request.Site,
+            VendorType = VendorTypes.Commercial
+        };
+        _documentSession.Store( entityToSave );
+        await _documentSession.SaveChangesAsync();
+       // save it
+       // map it to the thing we are going to return.
+
+        return Ok(entityToSave);
     }
 
     

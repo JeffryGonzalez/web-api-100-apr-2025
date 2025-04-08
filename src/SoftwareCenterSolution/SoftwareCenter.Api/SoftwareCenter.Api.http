@@ -7,16 +7,16 @@ POST {{SoftwareCenter.Api_HostAddress}}/commercial-vendors
 Content-Type: application/json 
 
 {
-    "name": "Microsoft",
-    "site": "https://microsoft.com",
+    "name": "Jetbrains",
+    "site": "https://jetbrains.com",
     "poc": {
         "name": {
-            "first": "William",
-            "last": "Gates"            
+            "first": "Khalid",
+            "last": "Abernathy"            
         },
         "contactMechanisms": {
                
-                "primary_email": ""
+                "primary_email": "bob@aol.com"
             
         }
     }
