@@ -19,7 +19,7 @@ public class AddingAVendor
         // System Tests are "scenarios".  
         await host.Scenario(api =>
         {
-            api.Post.Json(new { }).ToUrl("/vendors");
+            api.Post.Json(new { }).ToUrl("/commercial-vendors");
             api.StatusCodeShouldBeOk();
         });
 
