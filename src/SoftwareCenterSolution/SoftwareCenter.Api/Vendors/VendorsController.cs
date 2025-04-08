@@ -9,10 +9,10 @@ public class VendorsController : ControllerBase
         [FromBody] CommercialVendorCreate request
         )
     {
+        // is it a valid request? All the required stuff there? right format, etc.
+
  
-        // if they are a commercian vendor, do this stuff
-        // if they are an open source vendor, do this stuff
-        // if they are an in-house vendor, do this other stuff
+
         return Ok(request);
     }
 
