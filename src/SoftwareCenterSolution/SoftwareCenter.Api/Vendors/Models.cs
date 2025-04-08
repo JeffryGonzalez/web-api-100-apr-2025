@@ -1,25 +1,9 @@
 ﻿using System.Text.Json.Serialization;
+using FluentValidation;
 
 namespace SoftwareCenter.Api.Vendors;
 
-/*{
-    "name": "Microsoft",
-    "site": "https://www.microsoft.com",
-    
-    "poc": {
-        "name": {
-            "first": "William",
-            "last": "Gates"            
-        },
-        "contactMechanisms": {
-          
-                "primary_phone": "800 bill-g",
-                "primary_email": "billg@microsoft.com"
-            
-        }
-    }
-}
-*/
+
 
 public enum ContactMechanisms {
     // primary_phone
@@ -28,12 +12,23 @@ public enum ContactMechanisms {
     // primary_email
     [JsonStringEnumMemberName("primary_email")]
     PrimaryEmail }
+
+
 public record CommercialVendorCreate(
     string Name,
     string Site,
     PointOfContact Poc
     
     );
+
+public class CommercialVendorCreateValidator : AbstractValidator<CommercialVendorCreate>
+{
+    public CommercialVendorCreateValidator()
+    {
+        RuleFor(m => m.Name).NotEmpty();
+        RuleFor(m => m.Site).NotEmpty().WithMessage("Need a site for reference");
+    }
+}
 
 public record PointOfContact(
     NameContact Name,

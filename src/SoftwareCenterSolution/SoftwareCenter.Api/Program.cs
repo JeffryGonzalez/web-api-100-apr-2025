@@ -2,7 +2,9 @@
 
 
 
+using FluentValidation;
 using Microsoft.AspNetCore.Http.Json;
+using SoftwareCenter.Api.Vendors;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,10 +21,14 @@ builder.Services.Configure<JsonOptions>(options =>
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
+    options.JsonSerializerOptions.DictionaryKeyPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
   options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
 });
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+// scoped means a new instance of this thing per http request.
+builder.Services.AddScoped<IValidator<CommercialVendorCreate>, CommercialVendorCreateValidator>();
 
 var app = builder.Build();
 
