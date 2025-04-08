@@ -19,9 +19,7 @@ public class VendorsController : ControllerBase
 
             return BadRequest(validationResults.ToDictionary()); // I'll talk about htis in a second
         }
-        // if not:
-            // and can it be fixed (maybe, probably not)
-            // if not, send an error to the user agent (400)
+     
         // if it is valid:
             // save it somewhere?
             // send them a response saying everything is cool, or what we did.
