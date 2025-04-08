@@ -52,7 +52,11 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.MapOpenApi(); // we are goig to add, during development, a route called /openapi/v1.json 
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/openapi/v1.json", "Software Center");
+    });
 }
 
 app.UseAuthorization();
