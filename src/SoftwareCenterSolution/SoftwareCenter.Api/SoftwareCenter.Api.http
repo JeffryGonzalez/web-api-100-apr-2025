@@ -7,7 +7,7 @@ POST {{SoftwareCenter.Api_HostAddress}}/commercial-vendors
 Content-Type: application/json 
 
 {
-    "nae": "Microsoft",
+    "name": "Microsoft",
     "site": "https://microsoft.com",
     "poc": {
         "name": {
@@ -15,8 +15,8 @@ Content-Type: application/json
             "last": "Gates"            
         },
         "contactMechanisms": {
-                "primary_phone": "800 bill-g",
-                "primary_email": "billg@microsoft.com"
+               
+                "primary_email": ""
             
         }
     }

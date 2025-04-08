@@ -27,6 +27,7 @@ public class CommercialVendorCreateValidator : AbstractValidator<CommercialVendo
     {
         RuleFor(m => m.Name).NotEmpty();
         RuleFor(m => m.Site).NotEmpty().WithMessage("Need a site for reference");
+        RuleFor(m => m.Poc).SetValidator(new PointOfContactValidator());
     }
 }
 
@@ -36,4 +37,35 @@ public record PointOfContact(
     );
 
 
+public partial class PointOfContactValidator : AbstractValidator<PointOfContact>
+{
+    public PointOfContactValidator()
+    {
+        RuleFor(p => p.Name).SetValidator(new NameContactValidator());
+        RuleFor(p => p.ContactMechanisms).NotEmpty().WithMessage("You have to provide some way to contact the person");
+        // if they don't have a phone number, they have to have an email
+        RuleFor(p => p.ContactMechanisms[ContactMechanisms.PrimaryEmail])
+            .NotEmpty()
+            .Matches(ValidEmailRegularExpression())
+            .When(p => p.ContactMechanisms.ContainsKey(ContactMechanisms.primaryPhone) == false);
+
+        RuleFor(p => p.ContactMechanisms[ContactMechanisms.PrimaryEmail])
+
+           .Matches(ValidEmailRegularExpression());
+
+    }
+
+    [System.Text.RegularExpressions.GeneratedRegex(@".+\@.+\..+")]
+    private static partial System.Text.RegularExpressions.Regex ValidEmailRegularExpression();
+}
+
 public record NameContact(string First, string Last);
+
+public class NameContactValidator : AbstractValidator<NameContact>
+{
+    public NameContactValidator()
+    {
+        RuleFor(n => n.First).NotEmpty().MaximumLength(20);
+        RuleFor(n=> n.Last).MaximumLength(20);
+    }
+}
