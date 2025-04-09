@@ -1,5 +1,7 @@
-﻿using FluentValidation;
+﻿using System.Security.Claims;
+using FluentValidation;
 using Marten;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace SoftwareCenter.Api.Vendors;
@@ -7,10 +9,19 @@ namespace SoftwareCenter.Api.Vendors;
 [ApiController]
 public class VendorsController(IDocumentSession documentSession, IProvideIdentity _identityLookup) : ControllerBase
 {
+    [Authorize(Policy ="SoftwareCenterManager")]
+    // you can't get to this unless you are authenticated (we know who you are)
+    // AND if you know who you are, you have to be a member of the SoftwareCenter role AND a Manager
     [HttpPost("/commercial-vendors")]
     public async Task<ActionResult> AddAVendorAsync([FromBody] CommercialVendorCreateModel request,
-        [FromServices] IValidator<CommercialVendorCreateModel> validator)
+        [FromServices] IValidator<CommercialVendorCreateModel> validator
+        //[FromServices] ClaimsPrincipal userPrincipal
+        )
     {
+
+      
+
+
         var validationResults = validator.Validate(request);
         if (!validationResults.IsValid)
         {
@@ -40,6 +51,7 @@ public class VendorsController(IDocumentSession documentSession, IProvideIdentit
         return Created($"/commercial-vendors/{entityToSave.Id}", entityToSave);
     }
 
+    [Authorize]
     [HttpGet("/commercial-vendors/{id:guid}")]
     public async Task<ActionResult> GetVendorById(Guid id)
     {

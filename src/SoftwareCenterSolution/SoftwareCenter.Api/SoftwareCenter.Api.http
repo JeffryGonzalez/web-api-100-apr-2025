@@ -5,6 +5,7 @@
 
 POST {{SoftwareCenter.Api_HostAddress}}/commercial-vendors
 Content-Type: application/json 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InZpb2xldCIsInN1YiI6InZpb2xldCIsImp0aSI6ImU0MmJhODJjIiwicm9sZSI6WyJTb2Z0d2FyZUNlbnRlciIsIk1hbmFnZXIiXSwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDoxMzM3IiwibmJmIjoxNzQ0MjE2MjkzLCJleHAiOjE3NTIwNzg2OTMsImlhdCI6MTc0NDIxNjI5NCwiaXNzIjoiZG90bmV0LXVzZXItand0cyJ9.EVDpaBHlRP1v5IFD5ia4Jaa7dePdONcFPbZkSUFlJdU
 
 {
     "name": "Jetbrains",

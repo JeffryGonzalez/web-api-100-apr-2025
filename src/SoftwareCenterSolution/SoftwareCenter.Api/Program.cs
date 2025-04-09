@@ -6,9 +6,12 @@ using FluentValidation;
 using JasperFx.CodeGeneration.Frames;
 using Marten;
 using Microsoft.AspNetCore.Http.Json;
+using SoftwareCenter.Api.Shared;
 using SoftwareCenter.Api.Vendors;
+using SoftwareCenter.Api.Vendors.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddHttpContextAccessor(); 
 
 // built-in (which means you can change this) hierarchial configuration.
 // app.settings.json
@@ -16,8 +19,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Your "secrets" in Visual Studio
 // In an environment variable for that particular value (ConnectionStrings__software)
 // in the command line arguments when you run the API
-
-var connectionString = builder.Configuration.GetConnectionString("software") ?? throw new Exception("No connection string! Don't start me");
+builder.Services.AddAuthentication().AddJwtBearer();  // AuthN - verifying who someone is.
+builder.Services.AddAuthorizationBuilder().AddPolicy("SoftwareCenterManager", pol =>
+{
+    pol.RequireRole("SoftwareCenter");
+    pol.RequireRole("Manager");
+   
+});
+var connectionString = builder.Configuration.GetConnectionString("software") ?? throw new ChaosException("No connection string! Don't start me");
 Console.WriteLine("Using this connection string: " + connectionString);
 builder.Services.AddMarten(options =>
 {
@@ -46,6 +55,7 @@ builder.Services.AddOpenApi();
 
 // scoped means a new instance of this thing per http request.
 builder.Services.AddScoped<IValidator<CommercialVendorCreateModel>, CommercialVendorCreateModelValidator>();
+builder.Services.AddScoped<IProvideIdentity, ProvidesIdentityFromJwt>();
 
 var app = builder.Build();
 
@@ -58,7 +68,7 @@ if (app.Environment.IsDevelopment())
         options.SwaggerEndpoint("/openapi/v1.json", "Software Center");
     });
 }
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
