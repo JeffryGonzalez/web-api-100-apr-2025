@@ -26,6 +26,7 @@ public class AddingTechs
         Assert.Equal("Ray", postResponseModel.FirstName);
         Assert.Equal("Palmer", postResponseModel.LastName);
         Assert.Equal("x3333", postResponseModel.Sub);
+        // Was    Assert.Equal("555-1234", postResponseModel.Email);
         Assert.Equal("ray@company.com", postResponseModel.Email);
         Assert.Equal("555-1234", postResponseModel.Phone);
         Assert.NotEqual(Guid.Empty, postResponseModel.Id);
