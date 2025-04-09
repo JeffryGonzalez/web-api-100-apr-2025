@@ -1,4 +1,6 @@
-﻿namespace SoftwareCenter.Api.Vendors;
+﻿using System.Text.Json.Serialization;
+
+namespace SoftwareCenter.Api.Vendors;
 
 public enum VendorTypes {  Commercial, OpenSource, InHouse}
 
@@ -15,3 +17,20 @@ public class VendorEntity
     public PointOfContact? Poc { get; init; } 
 
 }
+public enum ContactMechanisms
+{
+    // primary_phone
+    [JsonStringEnumMemberName("primary_phone")]
+    primaryPhone,
+    // primary_email
+    [JsonStringEnumMemberName("primary_email")]
+    PrimaryEmail
+}
+
+public record PointOfContact(
+
+    Dictionary<ContactMechanisms, string> ContactMechanisms
+);
+
+
+public record NameContact(string First, string Last);

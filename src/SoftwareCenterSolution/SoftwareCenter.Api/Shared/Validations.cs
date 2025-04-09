@@ -1,6 +1,9 @@
+using System.Text.RegularExpressions;
+
 namespace SoftwareCenter.Api.Shared;
 
-public class Validations
+public partial class ValidationGenerators
 {
-    
+    [GeneratedRegex(@".+\@.+\..+")]
+    public static partial Regex ValidEmailRegularExpression();
 }

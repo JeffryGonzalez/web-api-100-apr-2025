@@ -8,6 +8,7 @@ using SoftwareCenter.Api.Vendors;
 
 namespace SoftwareCenter.Tests.Vendors;
 
+[Trait("Category", "UnitIntegration")]
 public class AddingAVendor
 {
 
@@ -69,10 +70,3 @@ public class AddingAVendor
 }
 
 
-//public class FakeIdentityThing : IProvideIdentity
-//{
-//    public Task<string> GetNameOfCallerAsync()
-//    {
-//        return Task.FromResult("boba-fett");
-//    }
-//}

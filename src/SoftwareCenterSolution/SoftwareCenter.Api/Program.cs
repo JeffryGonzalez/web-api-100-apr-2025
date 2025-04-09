@@ -45,7 +45,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 builder.Services.AddOpenApi();
 
 // scoped means a new instance of this thing per http request.
-builder.Services.AddScoped<IValidator<CommercialVendorCreate>, CommercialVendorCreateValidator>();
+builder.Services.AddScoped<IValidator<CommercialVendorCreateModel>, CommercialVendorCreateModelValidator>();
 
 var app = builder.Build();
 
