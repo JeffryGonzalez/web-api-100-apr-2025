@@ -1,6 +1,7 @@
 using FluentValidation;
 using Marten;
 using Techs.Api.Techs;
+using Techs.Api.Techs.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,8 @@ builder.Services.AddMarten(options =>
 {
     options.Connection(connectionString);
 }).UseLightweightSessions();
+
+builder.Services.AddScoped<ITechRepository, PostGresMartenTechRepository>();
 
 var app = builder.Build();
 

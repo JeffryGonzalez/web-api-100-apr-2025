@@ -1,10 +1,11 @@
 using FluentValidation;
 using Marten;
 using Microsoft.AspNetCore.Mvc;
+using Techs.Api.Techs.Services;
 
 namespace Techs.Api.Techs;
 
-public class TechsController(IDocumentSession session) : ControllerBase
+public class TechsController(ITechRepository repository) : ControllerBase
 {
     [HttpPost("/techs")]
     public async Task<ActionResult> AddTechAsync(
@@ -17,34 +18,22 @@ public class TechsController(IDocumentSession session) : ControllerBase
             return BadRequest();
         }
 
-        var response = new TechResponseModel(Guid.NewGuid(), request.FirstName, request.LastName, request.Sub, request.Email, request.Phone);
-        var entity = new TechEntity
-        {
-            Id = response.Id,
-            FirstName = response.FirstName,
-            LastName = response.LastName,
-            Sub = response.Sub,
-            Email = response.Email,
-            Phone = response.Phone
-
-        };
-        session.Store(entity);
-        await session.SaveChangesAsync();
+        var response = await repository.AddTechAsync(request);
+       
+     
         return Created($"/techs/{response.Id}", response);
     }
 
     [HttpGet("/techs/{id:guid}")]
     public async Task<ActionResult> GetATech(Guid id)
     {
-        var entity = await session.Query<TechEntity>().SingleOrDefaultAsync(t => t.Id == id);
-       if(entity is null)
+        var response = await repository.GetTechByIdAsync(id);
+       
+
+        return response switch
         {
-            return NotFound();
-        }
-       else
-        {
-            var response = new TechResponseModel(entity.Id, entity.FirstName, entity.LastName, entity.Sub, entity.Email, entity.Phone);
-            return Ok(response);
-        }
+            null => NotFound(),
+            _ => Ok(response)
+        };
     }
 }
