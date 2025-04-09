@@ -22,7 +22,7 @@ public class AddingAVendor
             fakeIdentity.GetNameOfCallerAsync().Returns("darth-vader");
             config.ConfigureServices(services =>
             {
-               services.AddScoped<IProvideIdentity>(_ => fakeIdentity);
+                services.AddScoped<IProvideIdentity>(_ => fakeIdentity);
             });
         });
         // about 15 lines from that documentation, start up the api with our Program.cs configuration.

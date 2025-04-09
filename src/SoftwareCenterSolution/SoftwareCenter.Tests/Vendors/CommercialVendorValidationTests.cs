@@ -75,7 +75,7 @@ public class CommercialVendorValidationTests
                 Site = "https://testvendor.com",
                 ContactFirstName = "John",
                 ContactLastName = "Doe",
-                ContactEmail = "bobsmith",
+                ContactEmail = "bobsmith.com",
                 ContactPhone = "888 555-1234"
             },
             "Contact email must be a valid email address"
