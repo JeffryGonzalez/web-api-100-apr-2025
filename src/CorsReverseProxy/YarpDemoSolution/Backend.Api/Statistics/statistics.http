@@ -1,0 +1,13 @@
+POST http://localhost:1338/statistics
+Content-Type: application/json
+
+{
+ "values": [
+   12,
+   18,
+   132.3,
+   2012.19,
+   32.85,
+   518.23
+ ]
+}
