@@ -1,6 +1,12 @@
 @Techs.Api_HostAddress = http://localhost:5160
 
-GET {{Techs.Api_HostAddress}}/weatherforecast/
-Accept: application/json
+POST {{Techs.Api_HostAddress}}/techs
+Content-Type: application/json
 
-###
+{
+    "FirstName": "John",
+    "LastName": "Wick",
+    "Email": "johnwick@hotels.com",
+    "Sub": "x111"
+}
+
