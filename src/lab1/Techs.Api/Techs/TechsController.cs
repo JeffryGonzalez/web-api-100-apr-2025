@@ -1,8 +1,38 @@
+using FluentValidation;
+using Marten;
+using Techs.Api.Techs.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Techs.Api.Techs;
 
-public class TechsController : ControllerBase
+public class TechsController(ITechRepository repository) : ControllerBase
 {
-    
+    [HttpPost("/techs")]
+    public async Task<ActionResult> AddTechAsync(
+        [FromBody] TechCreateModel request,
+        [FromServices] IValidator<TechCreateModel> validator
+        )
+    {
+        if(validator.Validate(request).IsValid == false)
+        {
+            return BadRequest();
+        }
+
+        var response = await repository.AddTechAsync(request);
+
+        return Created($"/techs/{response.Id}", response);
+
+    }
+
+    [HttpGet("/techs/{id:guid}")]
+    public async Task<ActionResult> GetATech(Guid id, CancellationToken token)
+    {
+        var reponse = await repository.GetTechByIdAsync(id, token);
+
+        return reponse switch
+        {
+            null => NotFound(),
+            _ => Ok(reponse)
+        };
+    }
 }
