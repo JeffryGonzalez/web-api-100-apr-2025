@@ -3,6 +3,7 @@ using Techs.Api.Techs;
 
 namespace Techs.Tests.Techs;
 
+[Trait("Category", "Unit")]
 public class TechModelValidations
 {
 
