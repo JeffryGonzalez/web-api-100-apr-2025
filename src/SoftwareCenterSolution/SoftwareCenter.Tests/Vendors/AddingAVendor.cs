@@ -4,9 +4,11 @@ using System.Net.Http.Json;
 using System.Security.Claims;
 using Alba;
 using Alba.Security;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using SoftwareCenter.Api.Vendors;
+using SoftwareCenter.Api.Vendors.Services;
 
 namespace SoftwareCenter.Tests.Vendors;
 
@@ -20,7 +22,16 @@ public class AddingAVendor
 
         var host = await AlbaHost.For<Program>(config =>
         {
-
+            var fake = Substitute.For<ILookupTechsFromTechApi>();
+            fake.GetTechFromSubAsync("sue-jones").Returns(new TechNameResponse() { Name = "Susan Jones" });
+            config.ConfigureServices(sp =>
+            {
+                // use this to configure NEW services that don't already exist in the program.cs.
+            });
+            config.ConfigureTestServices(sp =>
+            {
+                sp.AddScoped<ILookupTechsFromTechApi>(_ => fake);
+            });
         }, new AuthenticationStub()
         .With("sub", "sue-jones"));
        
@@ -50,6 +61,7 @@ public class AddingAVendor
         Assert.NotNull(responseBody);
 
         Assert.Equal(vendorToAdd.Name, responseBody.Name);
+        Assert.Equal("Susan Jones", responseBody.AddedBy);
         // etc. etc. BORING..
 
         var location = response.Context.Response.Headers.Location.Single();

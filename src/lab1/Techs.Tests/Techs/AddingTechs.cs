@@ -3,17 +3,22 @@ using Techs.Api.Techs;
 
 namespace Techs.Tests.Techs;
 
-public class AddingTechs
+public class AddingTechs : IAsyncLifetime
 {
+
+    private IAlbaHost _host = null!;
+
+
     [Fact]
     [Trait("Category", "SystemTest")]
     public async Task CanAddTechs()
     {
         var requestModel = new TechCreateModel("Ray", "Palmer", "x3333", "ray@company.com", "555-1234");
 
-        var host = await AlbaHost.For<Program>();
+        // start up the API from scratch...
+       
 
-        var postResponse = await host.Scenario(api =>
+        var postResponse = await _host.Scenario(api =>
         {
             api.Post.Json(requestModel).ToUrl("/techs");
             api.StatusCodeShouldBe(201);
@@ -33,7 +38,7 @@ public class AddingTechs
 
         var location = postResponse.Context.Response.Headers.Location.Single();
         
-        var getResponse = await host.Scenario(api =>
+        var getResponse = await _host.Scenario(api =>
         {
             api.Get.Url(location!);
             api.StatusCodeShouldBe(200);
@@ -43,7 +48,19 @@ public class AddingTechs
         
         Assert.Equal(postResponseModel, getResponseModel);
     }
-    
+
+
+    public async Task InitializeAsync()
+    {
+        // test containers - https://dotnet.testcontainers.org/
+        _host = await AlbaHost.For<Program>();
+    }
+    public async Task DisposeAsync()
+    {   // throw away that container - use a different one for the next set.
+        await _host.DisposeAsync();
+    }
+
+
     [Fact]
     public async Task ModelIsValidated()
     {

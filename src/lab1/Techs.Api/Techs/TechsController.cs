@@ -25,9 +25,10 @@ public class TechsController(ITechRepository repository) : ControllerBase
     }
 
     [HttpGet("/techs/{id:guid}")]
-    public async Task<ActionResult> GetATech(Guid id)
+    public async Task<ActionResult> GetATech(Guid id, CancellationToken token)
     {
-        var response = await repository.GetTechByIdAsync(id);
+       
+        var response = await repository.GetTechByIdAsync(id, token);
        
 
         return response switch

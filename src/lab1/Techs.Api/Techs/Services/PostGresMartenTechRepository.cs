@@ -14,12 +14,12 @@ public class PostGresMartenTechRepository(IDocumentSession session) : ITechRepos
         return response;
     }
 
-    public async Task<TechResponseModel?> GetTechByIdAsync(Guid id)
+    public async Task<TechResponseModel?> GetTechByIdAsync(Guid id, CancellationToken token)
     {
         var response = await session.Query<TechEntity>()
             .Where(t => t.Id == id)
             .ProjectToResponse()
-            .SingleOrDefaultAsync();
+            .SingleOrDefaultAsync(token);
         return response;
     }
 }

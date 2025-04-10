@@ -57,6 +57,27 @@ builder.Services.AddOpenApi();
 builder.Services.AddScoped<IValidator<CommercialVendorCreateModel>, CommercialVendorCreateModelValidator>();
 builder.Services.AddScoped<IProvideIdentity, ProvidesIdentityFromJwt>();
 
+// 
+var techApiUrl = builder.Configuration.GetConnectionString("techs-api") ?? throw new ChaosException("No Tech API Url ");
+
+// this is a "named, typed http client"
+builder.Services.AddHttpClient<TechApiHttp>(client =>
+{
+    client.BaseAddress = new Uri(techApiUrl);
+});
+
+// "Eager" service creation - 
+//var techApi = new TechApiHttp();
+//builder.Services.AddSingleton<ILookupTechsFromTechApi>(_ => techApi);
+
+// This is saying "in the future, if some code asks for the ILookup thing, just give them
+// the thing I already registered above (TechsApiHttp), because it has the base url and all that jazz.
+// Provider factory
+builder.Services.AddScoped<ILookupTechsFromTechApi>(sp =>
+{
+    return sp.GetRequiredService<TechApiHttp>();
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
