@@ -36,5 +36,19 @@ public class TechsController(ITechRepository repository) : ControllerBase
             null => NotFound(),
             _ => Ok(response)
         };
+    }    
+    
+    [HttpGet("/software/techs/{sub}")]
+    public async Task<ActionResult> GetASoftwareTechBySub(string sub, CancellationToken token)
+    {
+       
+        var response = await repository.GetSoftwareTechBySubAsync(sub, token);
+       
+
+        return response switch
+        {
+            null => NotFound(),
+            _ => Ok(response.FirstName + " " + response.LastName)
+        };
     }
 }

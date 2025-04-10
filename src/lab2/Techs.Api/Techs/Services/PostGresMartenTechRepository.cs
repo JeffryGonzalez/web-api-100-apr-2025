@@ -22,4 +22,10 @@ public class PostGresMartenTechRepository(IDocumentSession session) : ITechRepos
             .SingleOrDefaultAsync(token);
         return response;
     }
+
+    public async Task<TechResponseModel?> GetSoftwareTechBySubAsync(string sub, CancellationToken token)
+    {
+        var response = await session.Query<TechEntity>().Where(t => t.Sub == sub).ProjectToResponse().FirstOrDefaultAsync(token);
+        return response;
+    }
 }
