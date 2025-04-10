@@ -15,7 +15,7 @@ public class TechsController(ITechRepository repository) : ControllerBase
     {
         if(validator.Validate(request).IsValid == false)
         {
-            return BadRequest();
+            return BadRequest(); 
         }
 
         var response = await repository.AddTechAsync(request);

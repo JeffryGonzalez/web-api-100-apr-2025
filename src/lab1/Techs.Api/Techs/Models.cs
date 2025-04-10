@@ -12,5 +12,14 @@ public class TechCreateModelValidator : AbstractValidator<TechCreateModel>
     public TechCreateModelValidator()
     {
         // Put your rules here
+        RuleFor(x => x.FirstName).NotEmpty().WithMessage("FirstName is required.");
+        RuleFor(x => x.LastName).NotEmpty().WithMessage("LastName is required.");
+        RuleFor(x => x.Sub).Must(x => x.StartsWith('x') || x.StartsWith('a')).WithMessage("Sub must start with an x or a")
+            .When(x => string.IsNullOrEmpty(x.Sub) == false);
+        RuleFor(x => x.Email).NotEmpty().Matches(@".+\@.+\..+").WithMessage("Email looks wrong.");
+
+
+
+
     }
 }

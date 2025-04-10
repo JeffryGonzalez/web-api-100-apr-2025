@@ -1,10 +1,14 @@
+using FluentValidation;
 using Marten;
+using Techs.Api.Techs;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 var connectionString = builder.Configuration.GetConnectionString("techs") ??
                        throw new Exception("No Connection String");
+
+builder.Services.AddScoped<IValidator<TechCreateModel>, TechCreateModelValidator>();
 
 builder.Services.AddMarten(options =>
 {

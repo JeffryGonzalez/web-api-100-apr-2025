@@ -31,15 +31,15 @@ public class AddingTechs
         Assert.NotEqual(Guid.Empty, postResponseModel.Id);
 
         var location = postResponse.Context.Response.Headers.Location.Single();
-        
+
         var getResponse = await host.Scenario(api =>
         {
             api.Get.Url(location!);
             api.StatusCodeShouldBe(200);
         });
-        
+
         var getResponseModel = getResponse.ReadAsJson<TechResponseModel>();
-        
+
         Assert.Equal(postResponseModel, getResponseModel);
     }
     
