@@ -1,0 +1,15 @@
+{
+    "priority": 1,
+
+    "request": {
+        "method": "GET",
+        "urlPath": "/software/techs/sue-jones"
+    },
+    "response": {
+        "status": 200,
+        "body": "{\"name\":\"Susan Jones\"}",
+        "headers": {
+            "Content-Type": "application/json"
+        }
+    }
+}

@@ -4,6 +4,7 @@ using System.Net.Http.Json;
 using System.Security.Claims;
 using Alba;
 using Alba.Security;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
@@ -22,6 +23,7 @@ public class AddingAVendor
 
         var host = await AlbaHost.For<Program>(config =>
         {
+           
             var fake = Substitute.For<ILookupTechsFromTechApi>();
             fake.GetTechFromSubAsync("sue-jones").Returns(new TechNameResponse() { Name = "Susan Jones" });
             config.ConfigureServices(sp =>
@@ -30,7 +32,7 @@ public class AddingAVendor
             });
             config.ConfigureTestServices(sp =>
             {
-                sp.AddScoped<ILookupTechsFromTechApi>(_ => fake);
+               sp.AddScoped<ILookupTechsFromTechApi>(_ => fake);
             });
         }, new AuthenticationStub()
         .With("sub", "sue-jones"));
