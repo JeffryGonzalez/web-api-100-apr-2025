@@ -27,9 +27,9 @@ public class TechsController(ITechRepository repository) : ControllerBase
     [HttpGet("/techs/{id:guid}")]
     public async Task<ActionResult> GetATech(Guid id, CancellationToken token)
     {
-       
+
         var response = await repository.GetTechByIdAsync(id, token);
-       
+
 
         return response switch
         {
@@ -37,4 +37,33 @@ public class TechsController(ITechRepository repository) : ControllerBase
             _ => Ok(response)
         };
     }
+
+    [HttpGet("/techs/{sub}")]
+    public async Task<ActionResult> GetATech(string sub)
+    {
+
+        var response = await repository.GetTechsBySubAsync(sub);
+
+
+        return response switch
+        {
+            null => NotFound(),
+            _ => Ok(response)
+        };
+    }
+
+    [HttpGet("/techs")]
+    public async Task<ActionResult> GetAllTechs()
+    {
+
+        var response = await repository.GetAllTechsAsync();
+
+
+        return response switch
+        {
+            null => NotFound(),
+            _ => Ok(response)
+        };
+    }
+
 }
