@@ -8,6 +8,8 @@ public record TechCreateModel(string FirstName, string LastName, string Sub, str
 
 public record TechResponseModel(Guid Id, string FirstName, string LastName, string Sub, string Email, string Phone);
 
+public record TechNameResponseModel(string Name);
+
 public class TechCreateModelValidator : AbstractValidator<TechCreateModel>
 {
     public TechCreateModelValidator()
