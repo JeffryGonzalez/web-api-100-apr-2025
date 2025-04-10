@@ -56,6 +56,4 @@ public class AddingTechs
             api.StatusCodeShouldBe(400);
         });
     }
-
-
 }

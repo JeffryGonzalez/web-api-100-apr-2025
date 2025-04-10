@@ -1,5 +1,4 @@
 using FluentValidation;
-
 namespace Techs.Api.Techs;
 
 
@@ -11,6 +10,15 @@ public class TechCreateModelValidator : AbstractValidator<TechCreateModel>
 {
     public TechCreateModelValidator()
     {
-        // Put your rules here
+        RuleFor(x => x.FirstName).NotEmpty().WithMessage("FirstName is required.");
+        RuleFor(x => x.LastName).NotEmpty().WithMessage("LastName is required.");
+        RuleFor(x => x.Email)
+            .NotEmpty()
+            .Matches(@".+\@.+\..+")
+            .WithMessage("Email looks wrong.");
+        RuleFor(x => x.Sub)
+            .NotEmpty()
+            .Must(value => value.StartsWith("a") || value.StartsWith("x"))
+            .WithMessage("Sub must start with an x or a");
     }
 }
