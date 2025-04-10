@@ -32,7 +32,7 @@ public class AddingAVendor
             });
             config.ConfigureTestServices(sp =>
             {
-               sp.AddScoped<ILookupTechsFromTechApi>(_ => fake);
+               //sp.AddScoped<ILookupTechsFromTechApi>(_ => fake);
             });
         }, new AuthenticationStub()
         .With("sub", "sue-jones"));
