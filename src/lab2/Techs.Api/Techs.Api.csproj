@@ -9,6 +9,8 @@
     <ItemGroup>
       <PackageReference Include="FluentValidation" Version="11.11.0" />
       <PackageReference Include="Marten.AspNetCore" Version="7.39.6" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.4" />
+      <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="9.0.4" />
       <PackageReference Include="Riok.Mapperly" Version="4.2.0" />
     </ItemGroup>
 

@@ -1,5 +1,6 @@
 using FluentValidation;
 using Marten;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Techs.Api.Techs.Services;
 
@@ -36,8 +37,9 @@ public class TechsController(ITechRepository repository) : ControllerBase
             null => NotFound(),
             _ => Ok(response)
         };
-    }    
-    
+    }
+
+    //[Authorize(Policy = "SoftwareCenter")]
     [HttpGet("/software/techs/{sub}")]
     public async Task<ActionResult> GetASoftwareTechBySub(string sub, CancellationToken token)
     {
@@ -49,6 +51,21 @@ public class TechsController(ITechRepository repository) : ControllerBase
         {
             null => NotFound(),
             _ => Ok(response.FirstName + " " + response.LastName)
+        };
+    }
+
+    //[Authorize(Policy = "SoftwareCenter")]
+    [HttpGet("/software/techs/")]
+    public async Task<ActionResult> GetSoftwareTechs(int pageNumber, int pageSize, CancellationToken token)
+    {
+
+        var response = await repository.GetSoftwareTechsAsync(pageNumber, pageSize, token);
+
+
+        return response switch
+        {
+            null => NotFound(),
+            _ => Ok(response)
         };
     }
 }
